@@ -1,6 +1,7 @@
 package com.indivie.cms.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.indivie.cms.constant.TransferType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,4 +29,9 @@ public class ProductTransfer {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    @Column(name = "qty")
+    private Integer qty;
+    @Column(name = "transfer_type")
+    @Enumerated(EnumType.STRING)
+    private TransferType type;
 }
