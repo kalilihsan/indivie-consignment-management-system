@@ -112,6 +112,7 @@ public class ProductTransferServiceImpl implements ProductTransferService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ProductTransferResponse createTransactionTransfer(TransactionalProductTransferRequest request) {
         OutletProduct outletProduct = outletProductService.getOrSaveOutletProduct(request.getOutletId(), request.getProductId());
@@ -146,6 +147,7 @@ public class ProductTransferServiceImpl implements ProductTransferService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     @Override
     public Page<ProductTransferResponse> getAll(SearchProductTransferRequest request) {
         if (request.getPage() <= 0) request.setPage(1);

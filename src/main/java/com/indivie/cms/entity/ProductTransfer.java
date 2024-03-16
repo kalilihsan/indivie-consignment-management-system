@@ -22,16 +22,16 @@ public class ProductTransfer {
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date transferDate;
-    @Column(name = "sender")
+    @Column(name = "sender", nullable = false)
     private String sender;
-    @Column(name = "receiver")
+    @Column(name = "receiver", nullable = false)
     private String receiver;
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-    @Column(name = "qty")
+    @Column(name = "qty", nullable = false)
     private Integer qty;
-    @Column(name = "transfer_type")
+    @Column(name = "transfer_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TransferType type;
 }
