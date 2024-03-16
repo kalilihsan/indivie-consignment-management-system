@@ -14,7 +14,7 @@ public class ProductSupplier {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
     @Column(name = "mobile_phone_no")
     private String mobilePhoneNo;
