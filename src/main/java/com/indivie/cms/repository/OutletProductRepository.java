@@ -12,16 +12,16 @@ import java.util.Optional;
 @Repository
 public interface OutletProductRepository extends JpaRepository<OutletProduct, String > {
     @Query(nativeQuery = true,
-            value = "SELECT id, qty, product_id, outlet_id, qty FROM m_outlet_product WHERE product_id=:productId AND outlet_id=:outletId")
+            value = "SELECT id, product_id, outlet_id, qty FROM m_outlet_product WHERE product_id=:productId AND outlet_id=:outletId")
     Optional<OutletProduct> findOutletProductByProductIdAndOutletId(@Param("productId") String productId,
                                                                     @Param("outletId") String outletId);
 
     @Query(nativeQuery = true,
     value = """
-            SELECT op.id, op.qty, op.product_id, op.outlet_id, op.qty FROM m_outlet_product AS op
+            SELECT op.id, op.product_id, op.outlet_id, op.qty FROM m_outlet_product AS op
             INNER JOIN m_product AS p ON p.id = op.product_id
             INNER JOIN m_supplier AS s ON s.id = p.supplier_id
-            WHERE s.id LIKE '%:supplierId%' AND op.outlet_id LIKE '%:outletId%'
+            WHERE s.id LIKE :supplierId AND op.outlet_id LIKE :outletId
             """)
     Optional<List<OutletProduct>> findListOutletProductByProductIdAndOutletId(@Param("supplierId") String supplierId,
                                                                               @Param("outletId") String outletId);
