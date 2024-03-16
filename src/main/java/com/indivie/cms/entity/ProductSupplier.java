@@ -10,12 +10,14 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "m_supplier")
-public class Supplier {
+public class ProductSupplier {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "name")
     private String name;
+    @Column(name = "mobile_phone_no")
+    private String mobilePhoneNo;
     @Column(name = "address")
     private String address;
 }
