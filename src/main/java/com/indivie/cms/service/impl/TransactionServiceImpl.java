@@ -77,6 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<TransactionResponse> getAll(SearchTransactionRequest request) {
         if (request.getPage() <= 0) request.setPage(1);

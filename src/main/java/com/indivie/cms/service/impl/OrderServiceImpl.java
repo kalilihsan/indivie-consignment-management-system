@@ -12,8 +12,9 @@ import com.indivie.cms.entity.ProductSupplyOrderDetail;
 import com.indivie.cms.repository.ProductSupplyOrderRepository;
 import com.indivie.cms.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailService orderDetailService;
     private final ProductTransferService transferService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public OrderResponse create(OrderRequest request) {
         Outlet outlet = outletService.getById(request.getOutletId());
@@ -76,8 +78,54 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<OrderResponse> getAll(SearchOrderRequest request) {
-        return null;
+        if (request.getPage() <= 0) request.setPage(1);
+
+        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
+        Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize(), sort);
+
+        Page<ProductSupplyOrder> supplyOrderPage = productSupplyOrderRepository.findAll(pageable);
+
+        String outletId = "%%";
+        String productId = "%%";
+        String supplierId = "%%";
+
+        if (request.getOutletId() != null) {
+            outletId = "%" + request.getOutletId() + "%";
+        }
+        if (request.getProductId() != null) {
+            productId = "%" + request.getProductId() + "%";
+        }
+        if (request.getSupplierId() != null) {
+            supplierId = "%" + request.getSupplierId() + "%";
+        }
+
+        if (productSupplyOrderRepository.findAllFiltered(outletId, productId, supplierId).isPresent()) {
+            List<ProductSupplyOrder> productSupplyOrders = productSupplyOrderRepository
+                    .findAllFiltered(outletId, productId, supplierId)
+                    .get();
+            supplyOrderPage = new PageImpl<>(productSupplyOrders, pageable, productSupplyOrders.size());
+        }
+
+        return supplyOrderPage.map(order -> {
+            List<OrderDetailResponse> detailResponses = order.getOrderDetails().stream().map(
+                    orderDetail -> OrderDetailResponse.builder()
+                            .id(orderDetail.getId())
+                            .orderId(order.getId())
+                            .productId(orderDetail.getProduct().getId())
+                            .netCost(orderDetail.getNetCost())
+                            .qty(orderDetail.getQty())
+                            .build()
+            ).toList();
+
+            return OrderResponse.builder()
+                    .id(order.getId())
+                    .orderDate(order.getOrderDate())
+                    .outletId(order.getOutlet().getId())
+                    .orderDetails(detailResponses)
+                    .build();
+        });
     }
 }
