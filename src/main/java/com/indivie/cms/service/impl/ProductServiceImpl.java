@@ -68,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
 
         Page<Product> products = productRepository.findAll(pageable);
 
+
         if (request.getSupplierId() != null) {
             if (productRepository.findAllBySupplierId(request.getSupplierId()).isPresent()) {
                 List<Product> productList = productRepository.findAllBySupplierId(request.getSupplierId()).get();

@@ -12,8 +12,10 @@ import com.indivie.cms.repository.ProductTransferRepository;
 import com.indivie.cms.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +36,7 @@ public class ProductTransferServiceImpl implements ProductTransferService {
         );
 
         if (sentProduct.getQty() < request.getQty()) {
-            throw new RuntimeException("Insufficient stock from sender");
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Insufficient stock");
         }
 
         UpdateOutletProductRequest sentUpdateRequest = UpdateOutletProductRequest
@@ -118,7 +120,7 @@ public class ProductTransferServiceImpl implements ProductTransferService {
         OutletProduct outletProduct = outletProductService.getOrSaveOutletProduct(request.getOutletId(), request.getProductId());
 
         if (outletProduct.getQty() < request.getQty()) {
-            throw new RuntimeException("Insufficient stock from sender");
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Insufficient stock");
         }
 
         outletProductService.update(UpdateOutletProductRequest.builder()
