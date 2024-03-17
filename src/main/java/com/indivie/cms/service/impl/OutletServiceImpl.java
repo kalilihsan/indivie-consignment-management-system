@@ -67,7 +67,7 @@ public class OutletServiceImpl implements OutletService {
         if (request.getPage() <= 0) request.setPage(1);
 
         Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
-        Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize());
+        Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize(), sort);
 
         return outletRepository.findAll(pageable).map(outlet -> {
             return OutletResponse.builder()

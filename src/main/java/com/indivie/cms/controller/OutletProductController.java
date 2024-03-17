@@ -27,16 +27,12 @@ public class OutletProductController {
     public ResponseEntity<CommonResponse<List<OutletProductResponse>>> getAllOutletProduct(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
-            @RequestParam(name = "direction", defaultValue = "asc") String direction,
             @RequestParam(name = "supplierId", required = false) String supplierId,
             @RequestParam(name = "outletId", required = false) String outletId
     ) {
         SearchOutletProductRequest request = SearchOutletProductRequest.builder()
                 .size(size)
                 .page(page)
-                .direction(direction)
-                .sortBy(sortBy)
                 .supplierId(supplierId)
                 .outletId(outletId)
                 .build();

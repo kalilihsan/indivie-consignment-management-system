@@ -39,7 +39,7 @@ public class ProductTransferController {
     public ResponseEntity<CommonResponse<List<ProductTransferResponse>>> getAllProductTransfer(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
+            @RequestParam(name = "sortBy", defaultValue = "transferDate") String sortBy,
             @RequestParam(name = "direction", defaultValue = "asc") String direction,
             @RequestParam(name = "outletId", required = false) String outletId,
             @RequestParam(name = "supplierId", required = false) String supplierId,

@@ -41,15 +41,11 @@ public class ProductController {
     public ResponseEntity<CommonResponse<List<ProductResponse>>> getAll(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
-            @RequestParam(name = "direction", defaultValue = "asc") String direction,
             @RequestParam(name = "supplierId", required = false) String supplierId
     ) {
         SearchProductRequest request = SearchProductRequest.builder()
                 .size(size)
                 .page(page)
-                .direction(direction)
-                .sortBy(sortBy)
                 .supplierId(supplierId)
                 .build();
         Page<ProductResponse> productResponses = productService.getAll(request);

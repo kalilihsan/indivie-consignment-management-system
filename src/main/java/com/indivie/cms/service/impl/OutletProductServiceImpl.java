@@ -70,9 +70,7 @@ public class OutletProductServiceImpl implements OutletProductService {
     public Page<OutletProductResponse> getAll(SearchOutletProductRequest request) {
         if (request.getPage() <= 0) request.setPage(1);
 
-        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
         Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize());
-
         Page<OutletProduct> outletProductPage = outletProductRepository.findAll(pageable);
 
         String supplierId = "%%";

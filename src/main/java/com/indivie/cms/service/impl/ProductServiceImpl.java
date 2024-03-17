@@ -64,7 +64,6 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductResponse> getAll(SearchProductRequest request) {
         if (request.getPage() <= 0) request.setPage(1);
 
-        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
         Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize());
 
         Page<Product> products = productRepository.findAll(pageable);

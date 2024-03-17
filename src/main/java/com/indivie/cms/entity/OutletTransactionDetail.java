@@ -22,5 +22,9 @@ public class OutletTransactionDetail {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    @Column(name = "net_price")
+    private Long netPrice;
+    @Column(name = "qty")
+    private Integer qty;
 
 }
