@@ -25,34 +25,8 @@ public class OutletServiceImpl implements OutletService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public OutletResponse create(NewOutletRequest request) {
-        Outlet outlet = Outlet.builder()
-                .name(request.getName())
-                .address(request.getAddress())
-                .mobilePhoneNo(request.getMobilePhoneNo())
-                .type(OutletType.REGULAR_MERCHANDISER_OUTLET)
-                .build();
-
-        outletRepository.saveAndFlush(outlet);
-
-        return OutletResponse.builder()
-                .id(outlet.getId())
-                .name(outlet.getName())
-                .address(outlet.getAddress())
-                .mobilePhoneNo(outlet.getMobilePhoneNo())
-                .build();
-    }
-
-    @Override
-    public OutletResponse createMainStorage(NewOutletRequest request) {
-        Outlet outlet = Outlet.builder()
-                .name(request.getName())
-                .address(request.getAddress())
-                .mobilePhoneNo(request.getMobilePhoneNo())
-                .type(OutletType.MAIN_STORAGE_OUTLET)
-                .build();
-
-        outletRepository.saveAndFlush(outlet);
+    public OutletResponse create(Outlet newOutlet) {
+        Outlet outlet = outletRepository.saveAndFlush(newOutlet);
 
         return OutletResponse.builder()
                 .id(outlet.getId())

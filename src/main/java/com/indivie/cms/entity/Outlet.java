@@ -24,4 +24,7 @@ public class Outlet {
     @Column(name = "outlet_type")
     @Enumerated(EnumType.STRING)
     private OutletType type;
+    @OneToOne
+    @JoinColumn(name = "user_account_id", unique = true)
+    private UserAccount userAccount;
 }

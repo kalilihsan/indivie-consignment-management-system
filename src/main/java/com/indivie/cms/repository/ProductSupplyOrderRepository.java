@@ -4,6 +4,7 @@ import com.indivie.cms.entity.ProductSupplyOrder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface ProductSupplyOrderRepository extends JpaRepository<ProductSuppl
             AND psod.product_id LIKE :productId
             AND p.supplier_id LIKE :supplierId
             """)
-    public Optional<List<ProductSupplyOrder>> findAllFiltered(@Value("outletId") String outletId,
-                                                              @Value("productId") String productId,
-                                                              @Value("supplierId") String supplierId);
+    public Optional<List<ProductSupplyOrder>> findAllFiltered(@Param("outletId") String outletId,
+                                                              @Param("productId") String productId,
+                                                              @Param("supplierId") String supplierId);
 }

@@ -8,8 +8,7 @@ import com.indivie.cms.entity.Outlet;
 import org.springframework.data.domain.Page;
 
 public interface OutletService {
-    OutletResponse create(NewOutletRequest request);
-    OutletResponse createMainStorage(NewOutletRequest request);
+    OutletResponse create(Outlet newOutlet);
     Page<OutletResponse> getAll(SearchRequest request);
     OutletResponse update(UpdateOutletRequest request);
     Outlet getById(String id);

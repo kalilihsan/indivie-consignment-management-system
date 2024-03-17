@@ -5,6 +5,7 @@ import com.indivie.cms.entity.OutletTransaction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface OutletTransactionRepository extends JpaRepository<OutletTransac
             INNER JOIN m_product AS p ON p.id = otd.product_id
             WHERE ot.outlet_id LIKE :outletId AND otd.product_id LIKE :productId
             """)
-    Optional<List<OutletTransaction>> findAllFiltered(@Value("outletId") String outletId,
-                                                      @Value("productId") String productId);
+    Optional<List<OutletTransaction>> findAllFiltered(@Param("outletId") String outletId,
+                                                      @Param("productId") String productId);
 }

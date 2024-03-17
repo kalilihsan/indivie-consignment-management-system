@@ -4,6 +4,7 @@ import com.indivie.cms.entity.ProductTransfer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public interface ProductTransferRepository extends JpaRepository<ProductTransfer
             AND s.id LIKE :supplierId
             """)
     Optional<List<ProductTransfer>> getFilteredProductTransfers(
-            @Value("sender") String sender,
-            @Value("receiver") String receiver,
-            @Value("productId") String productId,
-            @Value("supplierId") String supplierId
+            @Param("sender") String sender,
+            @Param("receiver") String receiver,
+            @Param("productId") String productId,
+            @Param("supplierId") String supplierId
     );
 }
