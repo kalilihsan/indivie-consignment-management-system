@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequestMapping(path = ApiUrl.SUPPLY_ORDER_API)
 public class OrderController {
     private final OrderService orderService;
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN,'ADMIN','MAIN_STORAGE'")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<OrderResponse>> createOrder(@RequestBody OrderRequest request) {
@@ -35,6 +37,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN,'ADMIN','MAIN_STORAGE'")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<OrderResponse>>> getAllOrder(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
